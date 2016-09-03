@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by barocko on 9/3/2016.
  */
-public class CustomCondition {
+public class CustomCondition2 {
 
     public static ExpectedCondition<Boolean> sizeOf(final By elementsLocator, final int expectedSize) {
         return new ExpectedCondition<Boolean>() {
