@@ -10,13 +10,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.yandex.qatools.allure.annotations.Step;
+
 
 import java.util.List;
 
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.$$;
-import static com.codeborne.selenide.Selenide.open;
+
+import static helpers.CustomCondition.sizeOf;
 import static org.junit.Assert.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
@@ -45,7 +44,7 @@ public class GoogleSearchTest {
 
         driver.get("https://google.com");
 
-        search("“Selenium automates browsers”");
+        search("Selenium automates browsers");
 
         assertResultsCount(10);
         wait.until(textToBePresentInElementLocated(results, "Selenium automates browsers"));
@@ -57,7 +56,7 @@ public class GoogleSearchTest {
 
     By results = By.cssSelector(".srg>.g");
 
-    @Step
+
     public void search(String text) {
         driver.findElement(By.name("q")).sendKeys(text, Keys.ENTER);
     }
@@ -71,22 +70,7 @@ public class GoogleSearchTest {
         driver.findElements(results).get(index).findElement(By.cssSelector("h3>a")).click();
     }
 
-    public ExpectedCondition<Boolean> sizeOf(final By elementsLocator, final int expectedSize) {
-        return new ExpectedCondition<Boolean>() {
-            private int listSize;
-            private List<WebElement> elements;
 
-            public Boolean apply(WebDriver driver) {
-                elements = driver.findElements(elementsLocator);
-                listSize = elements.size();
-                return listSize == expectedSize;
-            }
-
-            public String toString() {
-                return String.format("\nsize of list: %s\n to be: %s\n while actual size is: %s\n", elements, expectedSize, listSize);
-            }
-        };
-    }
 
 }
 
