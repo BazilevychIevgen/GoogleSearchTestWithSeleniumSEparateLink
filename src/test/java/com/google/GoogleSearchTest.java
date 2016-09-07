@@ -6,7 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 
 
-import static helpers.CustomCondition.sizeOf;
+import static helpers.CustomConditions.minimumSizeOf;
+import static helpers.CustomConditions.sizeOf;
 import static org.junit.Assert.assertEquals;
 import static org.openqa.selenium.support.ui.ExpectedConditions.textToBePresentInElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
@@ -16,9 +17,8 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.urlToBe;
  */
 public class GoogleSearchTest extends BaseTest {
 
-
     @Test
-    public void testSearchAndFollowLink() {
+    public void testSearch() {
 
         driver.get("https://google.com");
 
@@ -26,6 +26,14 @@ public class GoogleSearchTest extends BaseTest {
 
         assertResultsCount(10);
         wait.until(textToBePresentInElementLocated(results, "Selenium automates browsers"));
+    }
+
+    @Test
+    public void testFollowLink() {
+
+        driver.get("https://google.com");
+
+        search("Selenium automates browsers");
 
         followLink(0);
 
@@ -43,11 +51,9 @@ public class GoogleSearchTest extends BaseTest {
     }
 
     public void followLink(int index) {
+        wait.until(minimumSizeOf(results, index+1));
         driver.findElements(results).get(index).findElement(By.cssSelector("h3>a")).click();
     }
-
-
-
 }
 
 

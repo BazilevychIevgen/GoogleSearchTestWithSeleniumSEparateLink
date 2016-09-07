@@ -28,4 +28,21 @@ public class CustomConditions {
             }
         };
     }
+    public static ExpectedCondition<Boolean> minimumSizeOf(final By elementsLocator, final int minimumSize){
+        return new ExpectedCondition<Boolean>() {
+            private int listSize;
+            private List<WebElement> elements;
+
+            public Boolean apply(WebDriver driver) {
+                elements = driver.findElements(elementsLocator);
+                listSize = elements.size();
+                return  listSize >= minimumSize;
+            }
+
+            public String toString() {
+                return String.format("\nminimum size of list: %s\n should be: %s\n but actual size is: %s\n", elements, minimumSize, listSize);
+            }
+        };
+    }
+
 }
